@@ -24,3 +24,5 @@ Idea 2 :
       You have StackOverflow data available online (I would recomment exporting it from Google Platform), you can try to derive some             statistics form it (like average score per comment or something more fun, up to you), implement it either with different framework         or     with Spark but with different api (DataFrames API, SQL, DataSets, RDD, etc) and deploy it on any PAAS that you think is             popular (the       major 3 are AWS, Google and Azure). This will give you enough work to actually understand how it all works and it       will help you to         hold a reasonable discussion during interviews.
 
 Idea 3 : 
+
+https://www.kaggle.com/c/predict-who-is-more-influential-in-a-social-network/overview/evaluation
