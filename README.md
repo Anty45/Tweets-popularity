@@ -26,3 +26,6 @@ Idea 2 :
 Idea 3 : 
 
 https://www.kaggle.com/c/predict-who-is-more-influential-in-a-social-network/overview/evaluation
+
+idea 4 : NCAA / PLAYOFFS ,
+      Another year, another chance to anticipate the upsets, call the probabilities, and put your bracketology skills to the leaderboard       test. https://www.kaggle.com/c/mens-machine-learning-competition-2019
