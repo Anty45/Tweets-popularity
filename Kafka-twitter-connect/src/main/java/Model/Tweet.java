@@ -1,5 +1,7 @@
 package Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Tweet {
 
     private long id;
@@ -7,10 +9,10 @@ public class Tweet {
     private String lang;
     private User user;
 
-    // @SerializedName("retweet_count")
+    @SerializedName("retweet_count")
     private int retweetCount;
 
-    // @SerializedName("favorite_count")
+    @SerializedName("favorite_count")
     private int favoriteCount;
 
     //Constructor
