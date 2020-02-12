@@ -30,18 +30,17 @@ if __name__ == '__main__':
 
     # Script to get Data related to NBA
     def get_twitter_data():
-        res = api.search("Doncic",lang = "fr")
+        res = api.search("Damian",lang = "en")
         for i in res:
 
-            # producer.send(topic_name, str.encode(record))
             producer.send(topic_name, value={'user_id': str(i.user.id_str),
                                              "texte": str(i.text),
                                              'created_at': str(normalize_timestamp(str(i.created_at))),
                                              'followers_count': str(i.user.followers_count),
                                              'location': str(i.user.location),
+                                             'lang' : str(i.lang),
                                              'fav': str(i.favorite_count),
                                              'retweet': str(i.retweet_count)})
-            #producer.send(topic_name, value={"texte": i.text})
 
     # Get Data
     get_twitter_data()
