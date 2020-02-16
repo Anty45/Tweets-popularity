@@ -26,7 +26,8 @@ Lancement d'un serveur Zookeeper :
 Lancement d'un serveur kafka : 
    
    * ./kafka-server-start.sh /home/akoffi/Bureau/Tools_fil_rouge/kafka_2.12-2.3.0/config/server.properties
-
+   * sous DOS : kafka-server-start.bat D:\MS\tools\kafka_2.12-2.3.1\config\server.properties
+   
 Creation d'un Topic : 
 
    * ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic sample_test
@@ -56,7 +57,8 @@ Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-
 
 Une fois la data collectée, on l'écrit dans une base mongo pour faire un traitement par batch. 
 
-
+* Pour la consommation des instances dans le bus on passe par la commande : 
+C:\Users\koffi\AppData\Local\Programs\Python\Python36\python.exe consummer.py
 
 
 

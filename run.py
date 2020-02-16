@@ -16,7 +16,7 @@ if __name__ == '__main__':
     # Setting your access token and secret
     auth.set_access_token(access_token, access_token_secret)
     # Creating the API object by passing in auth information
-    api = tweepy.API(auth)
+    api = tweepy.API(auth,wait_on_rate_limit=True)
 
     def normalize_timestamp(time):
         mytime = datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
@@ -30,17 +30,19 @@ if __name__ == '__main__':
 
     # Script to get Data related to NBA
     def get_twitter_data():
-        res = api.search("Damian",lang = "en")
+        res = api.search("Gordon",lang = "fr")
         for i in res:
+            # Excluce Retwwet :
 
-            producer.send(topic_name, value={'user_id': str(i.user.id_str),
-                                             "texte": str(i.text),
-                                             'created_at': str(normalize_timestamp(str(i.created_at))),
-                                             'followers_count': str(i.user.followers_count),
-                                             'location': str(i.user.location),
-                                             'lang' : str(i.lang),
-                                             'fav': str(i.favorite_count),
-                                             'retweet': str(i.retweet_count)})
+            if (not i.retweeted) and ('RT @' not in i.text):
+                producer.send(topic_name, value={'user_id': str(i.user.id_str),
+                                                 "texte": str(i.text),
+                                                 'created_at': str(normalize_timestamp(str(i.created_at))),
+                                                 'followers_count': str(i.user.followers_count),
+                                                 'location': str(i.user.location),
+                                                 'lang' : str(i.lang),
+                                                 'fav': str(i.favorite_count),
+                                                 'retweet': str(i.retweet_count)})
 
     # Get Data
     get_twitter_data()
@@ -51,4 +53,4 @@ if __name__ == '__main__':
             # interval should be an integer, the number of seconds to wait
             time.sleep(interval)
 
-    periodic_work(60 * 0.1)  # get data every couple of minutes
+    periodic_work(60*15)  # get data every minute
