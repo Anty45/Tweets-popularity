@@ -61,4 +61,7 @@ Une fois la data collectée, on l'écrit dans une base mongo pour faire un trait
 C:\Users\koffi\AppData\Local\Programs\Python\Python36\python.exe consummer.py
 
 
+### III- Entrainement d'un modele d'analyse de sentiment sur un dataset existant
+
+
 

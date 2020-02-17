@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # Script to get Data related to NBA
     def get_twitter_data():
-        res = api.search("Gordon",lang = "fr")
+        res = api.search("LeBron",lang = "en")
         for i in res:
             # Excluce Retwwet :
 
@@ -53,4 +53,4 @@ if __name__ == '__main__':
             # interval should be an integer, the number of seconds to wait
             time.sleep(interval)
 
-    periodic_work(60*15)  # get data every minute
+    periodic_work(60*15)  # get data every 15 minutes
