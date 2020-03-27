@@ -21,13 +21,18 @@ vers Apache Zookeeper. Les commandes suivantes permettent ainsi de :
 Lancement d'un serveur Zookeeper : 
     
    *   ./zkServer.sh start /home/akoffi/Bureau/Tools_fil_rouge/apache-zookeeper-3.5.6-bin/conf/zookeeper.properties
+   * __Sous DOS :__ Juste lancer la commande zkServer.cmd 
    * Vous devriez voir la mention __Server started__
    
 Lancement d'un serveur kafka : 
    
    * ./kafka-server-start.sh /home/akoffi/Bureau/Tools_fil_rouge/kafka_2.12-2.3.0/config/server.properties
-   * sous DOS : kafka-server-start.bat D:\MS\tools\kafka_2.12-2.3.1\config\server.properties
-   
+TroubleShooting : 
+
+    * Lors du lancement du serveur Kafka, il peut arriver qu'il n'arrive pas à recuperer les logs. 
+    Dans ce cas de figure, il convient de modifier le fichier de conf (server.properties), en particulier la ligne relative 
+    au repertoire de log ( log_dir). Il suffit de renommer ce fichier avant de relancer le serveur Kafka 
+
 Creation d'un Topic : 
 
    * ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic sample_test
