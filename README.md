@@ -27,9 +27,10 @@ Lancement d'un serveur Zookeeper :
 Lancement d'un serveur kafka : 
    
    * ./kafka-server-start.sh /home/akoffi/Bureau/Tools_fil_rouge/kafka_2.12-2.3.0/config/server.properties
+
 TroubleShooting : 
 
-    * Lors du lancement du serveur Kafka, il peut arriver qu'il n'arrive pas à recuperer les logs. 
+   * Lors du lancement du serveur Kafka, il peut arriver qu'il n'arrive pas à recuperer les logs. 
     Dans ce cas de figure, il convient de modifier le fichier de conf (server.properties), en particulier la ligne relative 
     au repertoire de log ( log_dir). Il suffit de renommer ce fichier avant de relancer le serveur Kafka 
 
@@ -69,4 +70,11 @@ C:\Users\koffi\AppData\Local\Programs\Python\Python36\python.exe consummer.py
 ### III- Entrainement d'un modele d'analyse de sentiment sur un dataset existant
 
 
+### IV- Prediction temps réel
+
+D:\MS\Spark\spark\bin>
+
+spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:9092 Twitter
+
+ 
 
