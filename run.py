@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # Script to get Data related to NBA
     def get_twitter_data():
-        res = api.search("LeBron",lang = "en")
+        res = api.search("NBA",lang = "en")
         for i in res:
             # Excluce Retwwet :
 
