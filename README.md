@@ -27,6 +27,7 @@ Lancement d'un serveur Zookeeper :
 Lancement d'un serveur kafka : 
    
    * ./kafka-server-start.sh /home/akoffi/Bureau/Tools_fil_rouge/kafka_2.12-2.3.0/config/server.properties
+   * kafka-server-start.bat  D:/MS/tools/kafka_2.12-2.3.1/config/server.properties 
 
 TroubleShooting : 
 
@@ -74,7 +75,7 @@ C:\Users\koffi\AppData\Local\Programs\Python\Python36\python.exe consummer.py
 
 D:\MS\Spark\spark\bin>
 
-spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:9092 Twitter
+spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
 
  
 
