@@ -20,7 +20,7 @@ from pyspark.ml.tuning import CrossValidatorModel
 from pyspark.sql import SQLContext,SparkSession
 from pyspark.sql.types import StructType,IntegerType,StringType,TimestampType, StructField
 from pyspark.sql.functions import col, from_json, udf, struct, window
-from pyspark.ml import PipelineModel
+from pyspark.ml import Pipeline, PipelineModel
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 import json
 import datetime
@@ -93,4 +93,12 @@ if __name__ == '__main__':
         jsonoutput.lang
     ).count()
 
-    jsonoutput.writeStream.format("console").trigger(continuous='1 second').start().awaitTermination()
+    # Real-Time prediction
+
+    pipeline = PipelineModel.load('./pipeline')
+    model = CrossValidatorModel.load('./filRougeModel')
+    preprocessing = pipeline.transform(jsonoutput)
+    prediction = model.transform(preprocessing)
+
+    #jsonoutput.writeStream.format("console").trigger(continuous='1 second').start()
+    prediction.writeStream.format("console").trigger(processingTime='6 seconds').start().awaitTermination()
