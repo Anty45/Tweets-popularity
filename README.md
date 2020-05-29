@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FIL-ROUGE
 Data engineering
 
