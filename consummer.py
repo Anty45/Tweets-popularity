@@ -19,7 +19,7 @@ if __name__ == '__main__':
         client = MongoClient()
         db = client['Twitter']
         print("Connected")
-        collection = db["Doncic"]
+        collection = db["Tennis"]
     except:
         print("Unable to connect to Mongo")
 
