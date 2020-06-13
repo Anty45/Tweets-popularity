@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # -*- coding: iso-8859-15 -*-
 import os
@@ -5,8 +6,8 @@ os.environ['PYSPARK_SUBMIT_ARGS'] = "--packages org.apache.spark:spark-streaming
 os.environ['PYSPARK_SUBMIT_ARGS'] = "--packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.3," \
                                     "org.apache.kafka:kafka-clients:2.4.0 pyspark-shell "
 
-from elephas.ml_model import load_ml_transformer
-import pickle
+
+
 #findspark.init("D:/MS/Spark/spark")
 
 import sys
@@ -23,8 +24,6 @@ from pyspark.ml import Pipeline, PipelineModel
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 import json
 import datetime
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
 
 
 if __name__ == '__main__':
@@ -89,18 +88,17 @@ if __name__ == '__main__':
         "fav", col("parsed_field.fav")).withColumn("lang", col("parsed_field.lang")).withColumn(
         "created_at_ts", udf_convert_twitter_date(col("parsed_field.created_at")))
 
+    windowedCounts = jsonoutput.groupBy(
+        window(jsonoutput.created_at_ts, "1 minutes", "45 seconds"),
+        jsonoutput.lang
+    ).count()
 
     # Real-Time prediction
 
     pipeline = PipelineModel.load('./pipeline')
-    # Loading ML model
-    # model = CrossValidatorModel.load('./filRougeModel')
+    model = CrossValidatorModel.load('./filRougeModel')
     preprocessing = pipeline.transform(jsonoutput)
-
-    # Real-Time prediction with Elephas
-
-    elephasDl = load_ml_transformer(("./ElephasCnnDL"))
-    prediction = elephasDl.transform(preprocessing)
+    prediction = model.transform(preprocessing)
 
     #jsonoutput.writeStream.format("console").trigger(continuous='1 second').start()
     prediction.writeStream.format("console").trigger(processingTime='6 seconds').start().awaitTermination()
