@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.StringIndexerModel","timestamp":1591989381151,"sparkVersion":"2.4.3","uid":"StringIndexer_78ec8ec80d7c","paramMap":{"outputCol":"label","inputCol":"Vader Polarity Score"},"defaultParamMap":{"stringOrderType":"frequencyDesc","outputCol":"StringIndexer_78ec8ec80d7c__output","handleInvalid":"error"}}
