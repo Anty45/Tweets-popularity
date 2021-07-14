@@ -41,10 +41,10 @@ class Consumer:
 
     def concurrent_save_csv(self, ):
 
-        dict_for_df_creation = {"messages": self.messages}
-        df_messages = pd.DataFrame(dict_for_df_creation)
-        print(df_messages.head())
-        df_messages.to_csv(self._PATH_TO_CSV_, mode="a")
+        df_messages = pd.DataFrame(self.messages)
+        print(df_messages.tail())
+        with open(self._PATH_TO_CSV_, 'a', encoding="utf-8") as f:
+            df_messages.to_csv(f, header=f.tell()==0)
 
     def consume_in_csv(self):
         print("starting consume...")
