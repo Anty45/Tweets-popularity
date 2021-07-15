@@ -12,15 +12,15 @@
 
 ### I- Setup Zookeeper and Kafka
 
-__Prerequisites : JDK__
+__Prerequisites :__
+* JDK
 * Install in local Kafka and zookeeper
-* Mise en place du bus : aka Kafka
 
 __How to Start Zookeeper server__:
 
    * Move to Zookeeper directory
    * Run : ./zkServer.sh start ._PATH_TO_ZOOKEEPER_/conf/zookeeper.properties
-   * __On windows :__ Juste lancer la commande zkServer.cmd 
+   * __On windows :__ open a command-line, navigate to zookeeper bin directory, and run _zkServer.cmd_ or zkServer.sh on unix
    * If everything is ok you should see : __Server started__
    
 How to start a Kafka server : 
@@ -33,8 +33,8 @@ How to start to get tweets  :
 
    * Start Zookeeper server
    * Start kafka server
-   * Start the script run.py in Kafka-Twitter-connect/run.py
-   * Open a new command-line. Navigate to Kafka-Twitter-connect. And run "consummer.py" script
+   * Start the script run.py in scripts/run.py
+   * Open a new command-line. Navigate to scripts. And run "consummer.py" script
 
 Limitations :
 
