@@ -1,54 +1,40 @@
-# FIL-ROUGE
-Data engineering
+# Twitter - NLP - Data Mining
 
-##__Procédé :__ 
-* Recuperation des accreditations auprès de Twitter 
-* Recupération des données 
-* Stockage des données 
-* Nettoyage des données 
-* Analyse des  données
-* Mise en place du modele 
-* Test
+##__Pipeline :__ 
+* Get Twitter accreditations
+* Setup Zookeeper and Kafka
+* Fetch Data 
+* Store Data 
+* Clean Data 
+* Data analysis
+* Modeling 
+* Tests
 
-### I- Pour recuperer les données, nous avons décidé de nous connecter à l'API Twitter via le bus de message Apache Kafka. 
+### I- Setup Zookeeper and Kafka
 
-
+__Prerequisites : JDK__
+* Install in local Kafka and zookeeper
 * Mise en place du bus : aka Kafka
 
-Nous avons besoin d'un gestionnaire de brokers. Et comme mentionné dans la documentation, nous nous sommes tournés 
-vers Apache Zookeeper. Les commandes suivantes permettent ainsi de : 
+__How to Start Zookeeper server__:
 
-Lancement d'un serveur Zookeeper : 
-    
-   *   ./zkServer.sh start /home/akoffi/Bureau/Tools_fil_rouge/apache-zookeeper-3.5.6-bin/conf/zookeeper.properties
-   * __Sous DOS :__ Juste lancer la commande zkServer.cmd 
-   * Vous devriez voir la mention __Server started__
+   * Move to Zookeeper directory
+   * Run : ./zkServer.sh start ._PATH_TO_ZOOKEEPER_/conf/zookeeper.properties
+   * __On windows :__ Juste lancer la commande zkServer.cmd 
+   * If everything is ok you should see : __Server started__
    
-Lancement d'un serveur kafka : 
+How to start a Kafka server : 
    
-   * ./kafka-server-start.sh /home/akoffi/Bureau/Tools_fil_rouge/kafka_2.12-2.3.0/config/server.properties
-   * kafka-server-start.bat  D:/MS/tools/kafka_2.12-2.3.1/config/server.properties 
+   * Move to Kafka directory 
+   * Run : ./kafka-server-start.sh ./_PATH_TO_KAFKA_/config/server.properties
+   * kafka-server-start.bat  ./_PATH_TO_KAFKA_/config/server.properties 
 
-TroubleShooting : 
+How to start to get tweets  : 
 
-   * Lors du lancement du serveur Kafka, il peut arriver qu'il n'arrive pas à recuperer les logs. 
-    Dans ce cas de figure, il convient de modifier le fichier de conf (server.properties), en particulier la ligne relative 
-    au repertoire de log ( log_dir). Il suffit de renommer ce fichier avant de relancer le serveur Kafka 
-
-Creation d'un Topic : 
-
-   * ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic sample_test
-   * Le nombre de replica correspond à notre nombre de brokers. 
-
-Instancier une fenetre pour le consumer : 
-   * kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic Twitter --from-beginning
-
-Pour lancer la recuperation de la data : 
-
-   * Demarrer le serveur Zookeeper 
-   * Demarrer un serveur kafka 
-   * Lancer un consumer kafka pour visualiser les données ( optionel)
-   * Lancer l'application java 
+   * Start Zookeeper server
+   * Start kafka server
+   * Start the script run.py in Kafka-Twitter-connect/run.py
+   * Open a new command-line. Navigate to Kafka-Twitter-connect. And run "consummer.py" script
 
 Limitations :
 
@@ -58,22 +44,22 @@ Limitations :
      
      Depending on what you’re tracking, you may not get any tweets for a while, instead, blank lines are sent to keep the connection alive. You should aim to keep a stable, open connection and not reconnect frequently - however, if no activity or an error occurs you should reconnect, but with exponential backoff (exponentially increasing the delay between reconnect attempts)
 
+TroubleShooting : 
+
+   * On start, if you modify the logs file, Kafka could be not able to read the new log directory. 
+     Just delete everything who refer to log before create a clean base of log files. 
+     Add the new log path to server.properties.
+
+Topic creation : 
+
+   * example : ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic sample_test
+   * Replica number == number of brokers 
+
 Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
 
-### II- Couche persistance 
+### II- Real-time prediction
 
-Une fois la data collectée, on l'écrit dans une base mongo pour faire un traitement par batch. 
+Navigate to spark bin directory and run :
 
-* Pour la consommation des instances dans le bus on passe par la commande : 
-C:\Users\koffi\AppData\Local\Programs\Python\Python36\python.exe consummer.py
-
-
-### III- Entrainement d'un modele d'analyse de sentiment sur un dataset existant
-
-
-### IV- Prediction temps réel
-
-D:\MS\Spark\spark\bin>
-
-spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
+* spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
 
