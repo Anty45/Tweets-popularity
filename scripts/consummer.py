@@ -44,7 +44,7 @@ class Consumer:
         df_messages = pd.DataFrame(self.messages)
         print(df_messages.tail())
         with open(self._PATH_TO_CSV_, 'a', encoding="utf-8") as f:
-            df_messages.to_csv(f, header=f.tell()==0)
+            df_messages.to_csv(f, header=f.tell() == 0)
 
     def consume_in_csv(self):
         print("starting consume...")
