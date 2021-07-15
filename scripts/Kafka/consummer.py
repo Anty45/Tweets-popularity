@@ -19,7 +19,7 @@ class Consumer:
             value_deserializer=lambda x: loads(x.decode('utf-8'))
         )
 
-        self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), "ressources", "messages.csv")
+        self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages.csv")
         try:
             client = MongoClient()
             db = client[db_name]

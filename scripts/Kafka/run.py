@@ -10,7 +10,7 @@ import os
 
 if __name__ == '__main__':
 
-    _PATH_TO_CONF_ = os.path.join(os.path.dirname(__file__), "api_secret.properties")
+    _PATH_TO_CONF_ = os.path.join(os.path.dirname(__file__), "../api_secret.properties")
     _MAX_TWEETS_TO_FETCH_ = 50
     _WOEID_FRANCE_ = '23424819'
     topic_name = 'test'

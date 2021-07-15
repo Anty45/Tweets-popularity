@@ -21,9 +21,9 @@ class Batchs_prediction:
         self.df = self.sqlContext.read.format("com.mongodb.spark.sql.DefaultSource").option("uri",
                                                                                             "mongodb://127.0.0.1/Twitter.Tennis").load()
 
-        self._PATH_TO_PIPELINE_ = os.path.join(os.path.dirname(__file__), "ressources", "pipeline")
-        self._PATH_TO_TOKENIZER_ = os.path.join(os.path.dirname(__file__), "ressources", "tokenizer.pickle")
-        self._PATH_TO_MODEL_ = os.path.join(os.path.dirname(__file__), "ressources", "cnn_model")
+        self._PATH_TO_PIPELINE_ = os.path.join(os.path.dirname(__file__), "../ressources", "pipeline")
+        self._PATH_TO_TOKENIZER_ = os.path.join(os.path.dirname(__file__), "../ressources", "tokenizer.pickle")
+        self._PATH_TO_MODEL_ = os.path.join(os.path.dirname(__file__), "../ressources", "cnn_model")
         self._VOCAB_LEN_ = 36
 
     def f1(self, y_true, y_pred):
