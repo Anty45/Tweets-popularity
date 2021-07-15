@@ -1,52 +1,65 @@
 import tweepy
 import time
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaProducer
 from datetime import datetime, timedelta
 from json import dumps
 import secrets
 from typing import List
+import configparser
+import os
 
 if __name__ == '__main__':
 
+    _PATH_TO_CONF_ = os.path.join(os.path.dirname(__file__), "api_secret.properties")
+    _MAX_TWEETS_TO_FETCH_ = 50
+    _WOEID_FRANCE_ = '23424819'
+    topic_name = 'test'
+
     # twitter setup
-    consumer_key = "kc17v5bzrUypcf6zH2pr3wegZ"
-    consumer_secret = "4yhDcoBvtG5FEOG0y2ETfozAnq6qL3orn0RACdIjAzAZe4DAO1"
-    access_token = "3395703293-clKkQY8wxu0MOunjRpzT9p4ZQv7Q3zCHTUO1g7s"
-    access_token_secret = "bw3zH1XTqO9dSPTzBIN5M7qlqOQO78urcdOGZ05Y3blfk"
+    config = configparser.RawConfigParser()
+    config.read(_PATH_TO_CONF_)
+    consumer_key = config.get("ApiSecretsKey", "consumer_key")
+    consumer_secret = config.get("ApiSecretsKey", "consumer_secret")
+    access_token = config.get("ApiSecretsKey", "access_token")
+    access_token_secret = config.get("ApiSecretsKey", "access_token_secret")
+
     # Creating the authentication object
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     # Setting your access token and secret
     auth.set_access_token(access_token, access_token_secret)
     # Creating the API object by passing in auth information
     api = tweepy.API(auth, wait_on_rate_limit=True)
-    _MAX_TWEETS_TO_FETCH_ = 50
-    _WOEID_FRANCE_ = '23424819'
-    topic_name = 'test'
+
 
     def normalize_timestamp(time):
         mytime = datetime.strptime(time, "%Y-%m-%d %H:%M:%S")
         mytime += timedelta(hours=1)  # the tweets are timestamped in GMT timezone, while I am in +1 timezone
         return mytime.strftime("%Y-%m-%d %H:%M:%S")
 
+
     # Setup producer by rooting it to our bootstrap_servers
     producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
                              value_serializer=lambda v: dumps(v).encode(
                                  'utf-8'))  # transformation en json avant de le convertir en utf8)
 
+
     def get_trends_by_woeid(woeid: str) -> List[dict]:
-        result_request = api.trends_place(id= woeid)
+        result_request = api.trends_place(id=woeid)
         print(f"Trends from {woeid} fetched...")
 
         return result_request
+
 
     def find_tops_trend_name(trends: List[dict]) -> List[str]:
         trends_attributes = trends[0]["trends"]
         tops_trend_names = [trend_attribute["name"] for trend_attribute in trends_attributes]
         return tops_trend_names
 
+
     def get_twitter_data(max_tweet_to_fetch: int, trends: List[dict]) -> None:
         trends_names = find_tops_trend_name(trends)
         random_top_trend_name = secrets.choice(trends_names)
+        print(f"Query keyword : {random_top_trend_name}")
         res = api.search(q=random_top_trend_name,
                          lang="fr",
                          result_type="mixed",
@@ -65,10 +78,11 @@ if __name__ == '__main__':
                                                  'fav': str(i.favorite_count),
                                                  'retweet': str(i.retweet_count)})
 
+
     def periodic_work(interval: int):
         while True:
             french_trends = get_trends_by_woeid(woeid=_WOEID_FRANCE_)
-            get_twitter_data(max_tweet_to_fetch=_MAX_TWEETS_TO_FETCH_, trends = french_trends)
+            get_twitter_data(max_tweet_to_fetch=_MAX_TWEETS_TO_FETCH_, trends=french_trends)
             # interval should be an integer, the number of seconds to wait
             time.sleep(interval)
 
