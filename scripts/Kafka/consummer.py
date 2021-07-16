@@ -20,6 +20,8 @@ class Consumer:
         )
 
         self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages.csv")
+        self._PATH_TO_XLSX_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages_ex.xlsx")
+
         try:
             client = MongoClient()
             db = client[db_name]
@@ -39,12 +41,13 @@ class Consumer:
             except:
                 print("Can not write in Mongo.")
 
-    def concurrent_save_csv(self, ):
+    def concurrent_save_csv_xlsx(self, ):
 
         df_messages = pd.DataFrame(self.messages)
         print(df_messages.tail())
         with open(self._PATH_TO_CSV_, 'a', encoding="utf-8") as f:
             df_messages.to_csv(f, header=f.tell() == 0)
+        df_messages.to_excel(self._PATH_TO_XLSX_,sheet_name="message")
 
     def consume_in_csv(self):
         print("starting consume...")
@@ -53,7 +56,7 @@ class Consumer:
             message = message.value
             print(message)
             self.messages.append(message)
-            process_save = Process(target=consumer.concurrent_save_csv())
+            process_save = Process(target=consumer.concurrent_save_csv_xlsx())
             process_save.start()
 
 
