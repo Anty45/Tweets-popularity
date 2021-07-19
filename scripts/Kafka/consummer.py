@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from json import loads
 import os
 from multiprocessing import Process
+from pathlib import Path
 
 
 class Consumer:
@@ -21,6 +22,7 @@ class Consumer:
 
         self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages.csv")
         self._PATH_TO_XLSX_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages_ex.xlsx")
+        self._XLSX_FILENAME_ = "messages_ex.xlsx"
 
         try:
             client = MongoClient()
@@ -41,13 +43,18 @@ class Consumer:
             except:
                 print("Can not write in Mongo.")
 
+    def convert_csv_to_xl(self, df_csv: pd.DataFrame) -> None:
+        writer = pd.ExcelWriter(self._PATH_TO_XLSX_)
+        df_csv.to_excel(writer, index=False)
+        writer.save()
+
     def concurrent_save_csv_xlsx(self, ):
 
         df_messages = pd.DataFrame(self.messages)
         print(df_messages.tail())
         with open(self._PATH_TO_CSV_, 'a', encoding="utf-8") as f:
             df_messages.to_csv(f, header=f.tell() == 0)
-        df_messages.to_excel(self._PATH_TO_XLSX_,sheet_name="message")
+
 
     def consume_in_csv(self):
         print("starting consume...")
@@ -61,6 +68,12 @@ class Consumer:
 
 
 if __name__ == '__main__':
+
     consumer = Consumer(db_name='Twitter', collection_name='test')
+    excel_msgs_exists = Path(consumer._PATH_TO_XLSX_)
+    if not excel_msgs_exists.is_file():
+        consumer.convert_csv_to_xl(
+            pd.read_csv(consumer._PATH_TO_CSV_, error_bad_lines=False)
+        )
     process_consumer = Process(target=consumer.consume_in_csv())
     process_consumer.start()
