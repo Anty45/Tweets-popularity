@@ -13,7 +13,8 @@ if __name__ == '__main__':
     _PATH_TO_CONF_ = os.path.join(os.path.dirname(__file__), "../api_secret.properties")
     _MAX_TWEETS_TO_FETCH_ = 50
     _WOEID_FRANCE_ = '23424819'
-    topic_name = 'test'
+    _TOPIC_NAME_ = 'test'
+    _TOPIC_TRENDS_ = 'trends'
 
     # twitter setup
     config = configparser.RawConfigParser()
@@ -69,15 +70,16 @@ if __name__ == '__main__':
 
         for i in res:
             if (not i.retweeted) and ('RT @' not in i.text):
-                producer.send(topic_name, value={'user_id': str(i.user.id_str),
-                                                 "texte": str(i.text),
-                                                 'created_at': str(normalize_timestamp(str(i.created_at))),
-                                                 'followers_count': str(i.user.followers_count),
-                                                 'location': str(i.user.location),
-                                                 'lang': str(i.lang),
-                                                 'fav': str(i.favorite_count),
-                                                 'retweet': str(i.retweet_count)})
+                producer.send(_TOPIC_NAME_, value={'user_id': str(i.user.id_str),
+                                                   "texte": str(i.text),
+                                                   'created_at': str(normalize_timestamp(str(i.created_at))),
+                                                   'followers_count': str(i.user.followers_count),
+                                                   'location': str(i.user.location),
+                                                   'lang': str(i.lang),
+                                                   'fav': str(i.favorite_count),
+                                                   'retweet': str(i.retweet_count)})
 
+        producer.send(_TOPIC_TRENDS_, value=trends_names)
 
     def periodic_work(interval: int):
         while True:
