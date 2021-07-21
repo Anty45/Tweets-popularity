@@ -28,7 +28,7 @@ class Consumer:
         except pymongo.errors.ConnectionFailure as e:
             print(f'Could not connect to server: %s {e}')
 
-    def spawn_consummer(self, topic_name: str, group_id: str, consummer_name: str) -> None:
+    def spawn_consummer(self, group_id: str, consummer_name: str) -> None:
         consumer_object = KafkaConsumer(
             bootstrap_servers=['localhost:9092'],
             auto_offset_reset='earliest',
@@ -111,16 +111,14 @@ if __name__ == '__main__':
                 pd.read_csv(consumer._PATH_TO_CSV_, error_bad_lines=False),
                 path=consumer._PATH_TO_XLSX_
             )
-        consumer.spawn_consummer(topic_name="test",
-                                 group_id="my-group",
+        consumer.spawn_consummer(group_id="my-group",
                                  consummer_name="consummer_messages")
 
         process_consumer_msg = Process(target=consumer.consume_in_csv(consummer_object=consumer.consummer_messages,
                                                                       topic="test")
                                        )
 
-        consumer.spawn_consummer(topic_name="trends",
-                                 group_id="trends-group",
+        consumer.spawn_consummer(group_id="trends-group",
                                  consummer_name="consummer_trends")
 
         process_consumer_trends = Process(
