@@ -1,5 +1,8 @@
 # Twitter - NLP - Data Mining
 
+## Tableau visualization 
+![alt text](https://github.com/[Anty45]/[FIL-ROUGE]/blob/[master]/scripts/tableau_viz/Twitter%20%23tableau.png?raw=true)
+
 ##__Pipeline :__ 
 * Get Twitter accreditations
 * Setup Zookeeper and Kafka
