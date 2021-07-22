@@ -52,7 +52,10 @@ TroubleShooting :
    * On start, if you modify the logs file, Kafka could be not able to read the new log directory. 
      Just delete everything who refer to log before create a clean base of log files. 
      Add the new log path to server.properties.
-
+     
+   * It could have some ephemeral connection to znode. In other words, the node already exist so it's engender a fatal error and the broker die. To clean everything and run on clean base you could use the following commands:
+     __"docker compose rm -svf"__.
+   * If the previous command does'nt work, try to add more time sleep on the kafka's containers creation. You could find it in ./Kafka/kafka_entr_point/start-kafka.sh
 Topic creation : 
 
    * example : ./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 3 --topic sample_test
