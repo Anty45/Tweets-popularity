@@ -12,7 +12,7 @@ RUN  mkdir /tmp/kafka && \
     mkdir /kafka && cd /kafka && \
     tar -xvzf /tmp/kafka/kafka.tgz --strip 1
 
-COPY /ressources/kafka/kafka_properties/start-kafka.sh  /usr/bin
+COPY /Kafka/kafka_entry_point/start-kafka.sh  /usr/bin
 RUN chmod +x  /usr/bin/start-kafka.sh
 
-CMD ["start-kafka.sh"]
+CMD ["start-kafka.sh" ]

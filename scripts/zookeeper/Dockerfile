@@ -12,7 +12,7 @@ RUN  mkdir /tmp/kafka && \
     mkdir /kafka && cd /kafka && \
     tar -xvzf /tmp/kafka/kafka.tgz --strip 1
 
-COPY /ressources/kafka/kafka_properties/start-zookeeper.sh  /usr/bin
+COPY /start-zookeeper.sh  /usr/bin
 RUN chmod +x  /usr/bin/start-zookeeper.sh
 
 CMD ["start-zookeeper.sh"]
