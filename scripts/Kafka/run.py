@@ -39,7 +39,8 @@ if __name__ == '__main__':
 
 
     # Setup producer by rooting it to our bootstrap_servers
-    producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+    producer = KafkaProducer(bootstrap_servers=['kafka-1:9092'],
+                             api_version=(0, 11, 5),
                              value_serializer=lambda v: dumps(v).encode(
                                  'utf-8'))  # transformation en json avant de le convertir en utf8)
 
@@ -80,6 +81,7 @@ if __name__ == '__main__':
                                                    'retweet': str(i.retweet_count)})
 
         producer.send(_TOPIC_TRENDS_, value=trends_names)
+        print("Data succesfully Send to topic")
 
     def periodic_work(interval: int):
         while True:
