@@ -6,10 +6,10 @@ RUN apt-get update && \
 ENV KAFKA_VERSION 2.8.0
 ENV SCALA_VERSION 2.12
 
-RUN  mkdir /tmp/kafka && \
-    curl "https://mirror.ibcp.fr/pub/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
-    -o /tmp/kafka/kafka.tgz && \
-    mkdir /kafka && cd /kafka && \
+RUN  mkdir /tmp/kafka
+RUN  curl "https://apache.mediamirrors.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+    -o /tmp/kafka/kafka.tgz
+RUN mkdir /kafka && cd /kafka && \
     tar -xvzf /tmp/kafka/kafka.tgz --strip 1
 
 COPY /start-zookeeper.sh  /usr/bin
