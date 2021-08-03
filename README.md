@@ -15,6 +15,8 @@
 
 ### I- Containers
 
+#### I-1- How to start everything
+
 To make everything easier, i setup one zookeeper head and 2 brokers throught docker.
 Please note that you could add as much brokers as you want by simply modifying docker-compose and also add kafka properties files accordingly.
 
@@ -24,6 +26,12 @@ Command to build and run the containers :
 
 * __docker compose build__
 * __docker compose up__
+
+Explanation on communication of brokers IN container : [link](https://stackoverflow.com/questions/51630260/connect-to-kafka-running-in-docker)
+
+Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
+
+#### I-2- Troubleshooting and solutions 
 
 Please note that you could have these following Troubleshooting : 
 
@@ -50,11 +58,6 @@ Limitations :
      
      Depending on what you’re tracking, you may not get any tweets for a while, instead, blank lines are sent to keep the connection alive. You should aim to keep a stable, open connection and not reconnect frequently - however, if no activity or an error occurs you should reconnect, but with exponential backoff (exponentially increasing the delay between reconnect attempts)
 
-
-Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
-
-Explanation on communication of brokers IN container : [link](https://stackoverflow.com/questions/51630260/connect-to-kafka-running-in-docker)
-
 ### III- Real-time prediction
 
 Navigate to spark bin directory and run :
@@ -63,4 +66,4 @@ Navigate to spark bin directory and run :
 
 ### IV- Tableau visualization 
 
-Well you just have to connect tableau to messages.xlsx. This file will be present in scripts/ressources/
+Well you just have to connect tableau to messages.xlsx. These files will be present in scripts/ressources/ directory
