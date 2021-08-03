@@ -37,10 +37,10 @@ Please note that you could have these following Troubleshooting :
 
 Well that's all you need.
 
-How to start to get tweets  : 
+### II- Data acquisition
 
-   * Start the script run.py in scripts/run.py
-   * Open a new command-line. Navigate to scripts. And run "consummer.py" script
+The Kafka producer write in the broker container all the tweets AND trends fetched. These data are stored in csv and excel file in scripts/ressources.
+
 
 Limitations :
 
@@ -54,12 +54,13 @@ Limitations :
 Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
 
 Explanation on communication of brokers IN container : [link](https://stackoverflow.com/questions/51630260/connect-to-kafka-running-in-docker)
-### II- Real-time prediction
+
+### III- Real-time prediction
 
 Navigate to spark bin directory and run :
 
 * spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
 
-### III- Tableau visualization 
+### IV- Tableau visualization 
 
 Well you just have to connect tableau to messages.xlsx. This file will be present in scripts/ressources/
