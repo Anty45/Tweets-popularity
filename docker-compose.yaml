@@ -49,5 +49,13 @@ services:
       dockerfile: ./scripts/Kafka/producer_dockerfile/Dockerfile
     depends_on:
       - broker
-      - kafka-2
       - zookeeper
+
+  consummer:
+    container_name: consummer
+    image: python:3
+    build:
+      context: ./
+      dockerfile: ./scripts/Kafka/consummer_dockerfile/Dockerfile
+    depends_on:
+      - producer
