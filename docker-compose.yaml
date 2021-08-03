@@ -57,5 +57,10 @@ services:
     build:
       context: ./
       dockerfile: ./scripts/Kafka/consummer_dockerfile/Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+    - ./scripts/ressources/messages.csv:/ressources/messages.csv
+    - ./scripts/ressources/messages_ex.xlsx:/ressources/messages_ex.xlsx
     depends_on:
       - producer
