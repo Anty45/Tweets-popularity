@@ -1,0 +1,68 @@
+version: "3.8"
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:5.3.1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    build:
+      context: ./scripts/zookeeper
+    volumes:
+    - ./zookeeper/conf/zookeeper.properties:/kafka/config/zookeeper.properties
+
+  kafka-1:
+    container_name: kafka-1
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    build:
+      context: ./
+    volumes:
+    - ./Kafka/conf/kafka-1/server.properties:/kafka/config/server.properties
+    - ./scripts/ressources/kafka/containers_data/kafka-1/kafka_logs:/tmp/kafka-logs/
+
+  kafka-2:
+    container_name: kafka-2
+    image: confluentinc/cp-enterprise-kafka:5.3.1
+    ports:
+    - "19092:19092"
+    build:
+      context: ./
+    volumes:
+      - ./Kafka/conf/kafka-2/server.properties:/kafka/config/server.properties
+      - ./scripts/ressources/kafka/containers_data/kafka-2/kafka_logs:/tmp/kafka-logs/
+
+  producer:
+    container_name: producer
+    image: python:3
+    build:
+      context: ./
+      dockerfile: ./scripts/Kafka/producer_dockerfile/Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - broker
+      - zookeeper
+
+  consummer:
+    container_name: consummer
+    image: python:3
+    build:
+      context: ./
+      dockerfile: ./scripts/Kafka/consummer_dockerfile/Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+    - ./scripts/ressources/messages.csv:/ressources/messages.csv
+    - ./scripts/ressources/messages_ex.xlsx:/ressources/messages_ex.xlsx
+    depends_on:
+      - producer

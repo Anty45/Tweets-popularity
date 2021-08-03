@@ -3,7 +3,6 @@ import pymongo
 from kafka import KafkaConsumer, TopicPartition
 from pymongo import MongoClient
 from json import loads
-import os
 from multiprocessing import Process
 from pathlib import Path
 import time
@@ -13,9 +12,12 @@ from typing import List
 class Consumer:
     def __init__(self, db_name: str, collection_name: str):
         self.messages, self.messages_trends = [], []
-        self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages.csv")
-        self._PATH_TO_XLSX_ = os.path.join(os.path.dirname(__file__), "../ressources", "messages_ex.xlsx")
-        self._PATH_TO_TRENDS_XLSX_ = os.path.join(os.path.dirname(__file__), "../ressources", "trends.xlsx")
+        # self._PATH_TO_CSV_ = os.path.join(os.path.dirname(__file__), ".." ,"ressources", "messages.csv")
+        self._PATH_TO_CSV_ = "./ressources/messages.csv"
+        # self._PATH_TO_XLSX_ = os.path.join(os.path.dirname(__file__),".." , "ressources", "messages_ex.xlsx")
+        self._PATH_TO_XLSX_ = "./ressources/messages_ex.xlsx"
+        # self._PATH_TO_TRENDS_XLSX_ = os.path.join(os.path.dirname(__file__), "..","/ressources", "trends.xlsx")
+        self._PATH_TO_TRENDS_XLSX_ = "./ressources/trends.xlsx"
         self._XLSX_FILENAME_ = "messages_ex.xlsx"
         self._XLSX_TRENDS_FILENAME_ = "trends.xlsx"
 
@@ -30,7 +32,7 @@ class Consumer:
 
     def spawn_consummer(self, group_id: str, consummer_name: str) -> None:
         consumer_object = KafkaConsumer(
-            bootstrap_servers=['localhost:9092'],
+            bootstrap_servers=['kafka-1:9092'],
             auto_offset_reset='earliest',
             enable_auto_commit=True,
             group_id=group_id,
@@ -102,7 +104,6 @@ if __name__ == '__main__':
 
     _MINUTE_ = 60
     starttime = time.time()
-
     while True:
         consumer = Consumer(db_name='Twitter', collection_name='test')
         excel_msgs_exists = Path(consumer._PATH_TO_XLSX_)
