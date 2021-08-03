@@ -5,7 +5,8 @@ RUN apt-get update
 RUN rm -rf ./ressources && \
     mkdir ./ressources && \
     rm -rf ./work && \
-    mkdir ./work
+    mkdir ./work && \
+    pip install openpyxl
 
 COPY ./requirements.txt ./work
 COPY ./scripts/ressources/messages.csv ./ressources/messages.csv
