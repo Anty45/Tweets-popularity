@@ -18,7 +18,7 @@
 To make everything easier, i setup one zookeeper head and 2 brokers throught docker.
 Please note that you could add as much brokers as you want by simply modifying docker-compose and also add kafka properties files accordingly.
 
-You should have docker installed.
+As a requirement, you should have docker installed.
 
 Command to build and run the containers : 
 
@@ -53,9 +53,13 @@ Limitations :
 
 Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
 
+Explanation on communication of brokers IN container : [link](https://stackoverflow.com/questions/51630260/connect-to-kafka-running-in-docker)
 ### II- Real-time prediction
 
 Navigate to spark bin directory and run :
 
 * spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
 
+### III- Tableau visualization 
+
+Well you just have to connect tableau to messages.xlsx. This file will be present in scripts/ressources/
