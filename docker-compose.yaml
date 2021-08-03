@@ -47,6 +47,8 @@ services:
     build:
       context: ./
       dockerfile: ./scripts/Kafka/producer_dockerfile/Dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
     depends_on:
       - broker
       - zookeeper
