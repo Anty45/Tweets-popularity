@@ -3,15 +3,6 @@
 ## Tableau visualization 
 ![alt text](https://github.com/Anty45/FIL-ROUGE/blob/master/scripts/tableau_viz/Twitter%20%23tableau.png?raw=true)
 
-## __Pipeline :__ 
-* Get Twitter accreditations
-* Setup Zookeeper and Kafka
-* Fetch Data 
-* Store Data 
-* Clean Data 
-* Data analysis
-* Modeling 
-* Tests
 
 ### I- Containers
 
@@ -67,3 +58,16 @@ Navigate to spark bin directory and run :
 ### IV- Tableau visualization 
 
 Well you just have to connect tableau to messages.xlsx. These files will be present in scripts/ressources/ directory
+
+### V- NLP
+
+* Can we predict if a tweet will become viral ?
+     * the tweets ?
+     * the person who like it ? 
+     * when they like it ?
+     * Is it an answer to a viral tweet ? 
+     * is a quoted tweet 
+          * if yes, what is the characteristic of this original tweets ? 
+  
+* Can we say why this tweet is viral ? 
+* Can we generate viral tweet ? 
