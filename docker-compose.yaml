@@ -10,6 +10,8 @@ services:
       context: ./scripts/zookeeper
     volumes:
     - ./zookeeper/conf/zookeeper.properties:/kafka/config/zookeeper.properties
+    - ./scripts/ressources/zookeeper/zookeeper_data:/var/lib/zookeeper/data
+    - ./scripts/ressources/zookeeper/zookeeper_log:/var/lib/zookeeper/log
 
   kafka-1:
     container_name: kafka-1
@@ -28,18 +30,20 @@ services:
       context: ./
     volumes:
     - ./Kafka/conf/kafka-1/server.properties:/kafka/config/server.properties
-    - ./scripts/ressources/kafka/containers_data/kafka-1/kafka_logs:/tmp/kafka-logs/
+    - ./scripts/ressources/kafka/containers_data/kafka-1/kafka_logs:/tmp/kafka-logs
 
   kafka-2:
     container_name: kafka-2
     image: confluentinc/cp-enterprise-kafka:5.3.1
+    depends_on:
+      - zookeeper
     ports:
     - "19092:19092"
     build:
       context: ./
     volumes:
       - ./Kafka/conf/kafka-2/server.properties:/kafka/config/server.properties
-      - ./scripts/ressources/kafka/containers_data/kafka-2/kafka_logs:/tmp/kafka-logs/
+      - ./scripts/ressources/kafka/containers_data/kafka-2/kafka_logs:/tmp/kafka-logs
 
   producer:
     container_name: producer
@@ -50,7 +54,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
     depends_on:
-      - broker
+      - kafka-1
+      - kafka-2
       - zookeeper
 
   consummer:

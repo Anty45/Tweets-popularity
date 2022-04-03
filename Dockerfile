@@ -7,7 +7,7 @@ ENV KAFKA_VERSION 2.8.0
 ENV SCALA_VERSION 2.12
 
 RUN  mkdir /tmp/kafka
-RUN  curl "https://apache.mediamirrors.org/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
+RUN  curl "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
     -o /tmp/kafka/kafka.tgz
 RUN mkdir /kafka && cd /kafka && \
     tar -xvzf /tmp/kafka/kafka.tgz --strip 1

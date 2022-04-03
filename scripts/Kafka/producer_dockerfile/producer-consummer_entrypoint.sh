@@ -1,3 +1,3 @@
-#! /bin/sh
+#!/bin/sh
 sleep 60
-python ./work/run.py
+python ./run.py

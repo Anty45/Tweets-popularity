@@ -1,3 +1,3 @@
-#! /bin/sh
+#!/bin/sh
 sleep 60
-python ./consummer.py
+python ./work/consummer.py

@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.8
 
 RUN apt-get update
 
@@ -15,7 +15,7 @@ COPY ./scripts/Kafka/consummer.py ./work/consummer.py
 COPY ./scripts/Kafka/api_secret.properties ./work/api_secret.properties
 COPY ./scripts/Kafka/consummer_dockerfile/consummer_entrypoint.sh ./work/consummer_entrypoint.sh
 
-RUN pip install -r ./requirements.txt
-RUN chmod +x ./consummer_entrypoint.sh
+RUN pip install -r ./work/requirements.txt
+RUN chmod +x ./work/consummer_entrypoint.sh
 
-CMD ["./consummer_entrypoint.sh"]
+CMD ["./work/consummer_entrypoint.sh"]
