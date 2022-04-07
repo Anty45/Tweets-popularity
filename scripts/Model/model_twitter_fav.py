@@ -1,17 +1,12 @@
 import lightgbm
 import pandas as pd
 import optuna
+import joblib
 
 from scripts.preprocessor.preprocessor import isolate_target, select_features_and_target, get_num_cat_features
-from scripts.fetch_data.save_data import PATH_TO_TRAIN, PATH_TO_VAL, PATH_TO_TEST
-from scripts.Model.evaluate import evaluate_model
-
-_LABELS_ = {"_FAV_LABEL_": 0,
-            "_RT_LABEL_": 1}
-
-TARGETS = {"low_level": 0,
-           "mid_level": 1,
-           "gigh_level": 2}
+from scripts.fetch_data.save_data import PATH_TO_TRAIN, PATH_TO_VAL, PATH_TO_RT_MODEL, PATH_TO_FAV_MODEL,\
+    _LABELS_, TARGETS
+from scripts.Model.evaluate import validate_model
 
 
 def setup_trainer(fav_or_rt_label: int):
@@ -20,12 +15,6 @@ def setup_trainer(fav_or_rt_label: int):
 
     app = select_features_and_target(dataframe=app)
     val = select_features_and_target(dataframe=val)
-
-    num_features, cat_features = get_num_cat_features(dataframe=app)
-    all_features = num_features + cat_features
-
-    # app = map_cat_to_int(dataframe=app)
-    # val = map_cat_to_int(dataframe=val)
 
     x_train, y_train = isolate_target(app)
     x_val, y_val = isolate_target(val)
@@ -40,7 +29,7 @@ def setup_trainer(fav_or_rt_label: int):
     return train_data, x_val, y_val
 
 
-def objective_fav(trial) -> (float):
+def objective_fav(trial) -> float:
     params_ = {
         "boosting_type": trial.suggest_categorical("boosting_type", ["rf", "gbdt", "dart"]),
         "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
@@ -52,13 +41,13 @@ def objective_fav(trial) -> (float):
 
     model_fav = lightgbm.LGBMClassifier(**params_).fit(X=train_data_fav.data,
                                                        y=train_data_fav.label)
-    val_metric_fav = evaluate_model(model=model_fav, features=x_val_fav,
+    val_metric_fav = validate_model(model=model_fav, features=x_val_fav,
                                     labels=y_val_fav)
 
     return val_metric_fav
 
 
-def objective_rt(trial) -> (float):
+def objective_rt(trial) -> float:
     params_ = {
         "boosting_type": trial.suggest_categorical("boosting_type", ["rf", "gbdt", "dart"]),
         "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
@@ -70,7 +59,7 @@ def objective_rt(trial) -> (float):
 
     model_rt = lightgbm.LGBMClassifier(**params_).fit(X=train_data_rt.data,
                                                       y=train_data_rt.label)
-    val_metric_rt = evaluate_model(model=model_rt, features=x_val_rt,
+    val_metric_rt = validate_model(model=model_rt, features=x_val_rt,
                                    labels=y_val_rt)
 
     return val_metric_rt
@@ -88,12 +77,22 @@ def trainer_rt(n_trials_: int):
     return study.best_trial
 
 
+def save_model(best_trials_: optuna.trial.FrozenTrial, path_to_save_mode: str) -> None:
+    best_params = best_trials_.params
+    classifier = lightgbm.LGBMClassifier(**best_params).fit(X=train_data_fav.data,
+                                                            y=train_data_fav.label)
+    joblib.dump(value=classifier, filename=path_to_save_mode)
+
+
 if __name__ == "__main__":
     train_data_fav, x_val_fav, y_val_fav = setup_trainer(fav_or_rt_label=_LABELS_["_FAV_LABEL_"])
     train_data_rt, x_val_rt, y_val_rt = setup_trainer(fav_or_rt_label=_LABELS_["_RT_LABEL_"])
 
     best_model_fav = trainer_fav(n_trials_=100)
     best_model_rt = trainer_rt(n_trials_=100)
+
+    save_model(best_trials_=best_model_fav, path_to_save_mode=PATH_TO_FAV_MODEL)
+    save_model(best_trials_=best_model_rt, path_to_save_mode=PATH_TO_RT_MODEL)
 
     print("fav Value: {}".format(best_model_fav))
     print("rt Value: {}".format(best_model_rt))

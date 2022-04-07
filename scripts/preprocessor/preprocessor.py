@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from typing import List
 from scripts.fetch_data.save_data import PATH_TO_FULL_RAW_DATA, PATH_TO_DATA_PREPROCESSED, PATH_TO_PREPROCESSOR
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import LabelEncoder
 from collections import defaultdict
 
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -29,16 +29,16 @@ def isolate_target(data: pd.DataFrame) -> (np.ndarray, np.ndarray):
 
 
 def select_features_and_target(dataframe: pd.DataFrame) -> pd.DataFrame:
-    features_selected = [  # "tweet_quarter",
-        # "tweet_day_of_the_week",
-        # "tweet_hour",
-        # "trend_volume",
-        # "trend",
-        "is_verified",
-        "followers_count",
-        # "location",
-        "fav",
-        "retweet"]
+    features_selected = ["tweet_quarter",
+                         "tweet_day_of_the_week",
+                         "tweet_hour",
+                         "trend_volume",
+                         # "trend",
+                         "is_verified",
+                         "followers_count",
+                         # "location",
+                         "fav",
+                         "retweet"]
     return dataframe[features_selected]
 
 
@@ -60,12 +60,14 @@ def get_num_cat_features(dataframe: pd.DataFrame) -> (List, List):
 
 
 def bucketize_target(fav_rt: int) -> int:
-    if fav_rt < 50:
+    if fav_rt < 100:
         return 0
-    elif 50 <= fav_rt < 200:
+    elif 100 <= fav_rt < 200:
         return 1
-    else:
+    elif 200 <= fav_rt < 1000:
         return 2
+    else:
+        return 3
 
 
 if __name__ == "__main__":
