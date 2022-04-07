@@ -13,8 +13,8 @@ def setup_trainer(fav_or_rt_label: int):
     app = pd.read_csv(PATH_TO_TRAIN)
     val = pd.read_csv(PATH_TO_VAL)
 
-    app = select_features_and_target(dataframe=app)
-    val = select_features_and_target(dataframe=val)
+    app, features_names = select_features_and_target(dataframe=app)
+    va, features_names= select_features_and_target(dataframe=val)
 
     x_train, y_train = isolate_target(app)
     x_val, y_val = isolate_target(val)
@@ -24,6 +24,7 @@ def setup_trainer(fav_or_rt_label: int):
 
     train_data = lightgbm.Dataset(data=x_train,
                                   label=targets,
+                                  feature_name= features_names
                                   )
 
     return train_data, x_val, y_val

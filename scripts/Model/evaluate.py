@@ -20,20 +20,27 @@ def model_test(model: lightgbm.LGBMClassifier, test_features, test_labels):
     return classification_report(y_true=test_labels, y_pred=predictions_test)
 
 
-if __name__ == "__main__":
-    model_ = joblib.load(filename=PATH_TO_FAV_MODEL)
+def setup_test(path_to_model: str, fav_rt_target: str):
+    model_ = joblib.load(filename=path_to_model)
     test = pd.read_csv(PATH_TO_TEST, index_col=False)
-    test = select_features_and_target(dataframe=test)
+    test, features_names = select_features_and_target(dataframe=test)
 
     x_test, y_test = isolate_target(test)
 
-    test_targets = [fav_rt[_LABELS_["_FAV_LABEL_"]] for fav_rt in y_test]
+    test_targets = [fav_rt[_LABELS_[fav_rt_target]] for fav_rt in y_test]
 
     test_dataset = lightgbm.Dataset(data=x_test,
                                     label=test_targets,
+                                    feature_name=features_names
                                     )
+    return model_, test_dataset, features_names
+
+
+if __name__ == "__main__":
+    model_, test_dataset_, features_names_ = setup_test(path_to_model=PATH_TO_FAV_MODEL,
+                                                        fav_rt_target="_FAV_LABEL_")
     classif_reports = model_test(model=model_,
-                                 test_features=test_dataset.data,
-                                 test_labels=test_dataset.label
+                                 test_features=test_dataset_.data,
+                                 test_labels=test_dataset_.label
                                  )
     print(classif_reports)

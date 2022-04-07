@@ -28,7 +28,7 @@ def isolate_target(data: pd.DataFrame) -> (np.ndarray, np.ndarray):
     return features, targets
 
 
-def select_features_and_target(dataframe: pd.DataFrame) -> pd.DataFrame:
+def select_features_and_target(dataframe: pd.DataFrame) -> (pd.DataFrame, List):
     features_selected = ["tweet_quarter",
                          "tweet_day_of_the_week",
                          "tweet_hour",
@@ -39,7 +39,7 @@ def select_features_and_target(dataframe: pd.DataFrame) -> pd.DataFrame:
                          # "location",
                          "fav",
                          "retweet"]
-    return dataframe[features_selected]
+    return dataframe[features_selected], features_selected
 
 
 def map_cat_to_int(dataframe: pd.DataFrame) -> pd.DataFrame:
