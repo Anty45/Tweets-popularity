@@ -9,8 +9,8 @@ def train_test_split_(df_preprocessed: pd.DataFrame) -> (pd.DataFrame, pd.DataFr
     :df_preprocessed:
     :return: train, validation, test data
     """
-    train, test = train_test_split(df_preprocessed, test_size=0.2, random_state=42)
-    app, val = train_test_split(train, test_size=0.2, random_state=112)
+    train, test = train_test_split(df_preprocessed, test_size=0.2, random_state=42, stratify=df_preprocessed["retweet"])
+    app, val = train_test_split(train, test_size=0.2, random_state=112, stratify=train["retweet"])
     return app, val, test
 
 
