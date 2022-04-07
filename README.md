@@ -1,4 +1,4 @@
-# Twitter - NLP - Data Mining
+# Predict viral tweets from scratch
 
 ### I- Dataset
 * Dataset is collected manually based on trends.
@@ -28,6 +28,9 @@ We try to keep things simple for this first version
   * Number of fav > 500 => high viral tweets => mapped to 2
 
 ### IV- __Baseline result__
+
+Yeah the data is unbalanced and that is quite logic :) 
+
  ```
                 precision    recall  f1-score   support
 
