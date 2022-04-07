@@ -1,13 +1,10 @@
 import pandas as pd
 import tweepy
 import time
-from kafka import KafkaProducer
 from datetime import datetime, timedelta
-from json import dumps
 import secrets
 from typing import List
 import configparser
-import os
 from save_data import add_data_to_df, PATH_TO_FULL_RAW_DATA
 from pathlib import Path
 
