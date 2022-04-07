@@ -3,7 +3,7 @@ import pandas as pd
 import optuna
 import joblib
 
-from scripts.preprocessor.preprocessor import isolate_target, select_features_and_target, get_num_cat_features
+from scripts.preprocessor.preprocessor import isolate_target, select_features_and_target
 from scripts.fetch_data.save_data import PATH_TO_TRAIN, PATH_TO_VAL, PATH_TO_RT_MODEL, PATH_TO_FAV_MODEL,\
     _LABELS_, TARGETS
 from scripts.Model.evaluate import validate_model

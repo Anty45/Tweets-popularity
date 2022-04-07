@@ -1,21 +1,43 @@
 # Twitter - NLP - Data Mining
 
-## Tableau visualization 
-![alt text](https://github.com/Anty45/FIL-ROUGE/blob/master/scripts/tableau_viz/Twitter%20%23tableau.png?raw=true)
+### I- Dataset
+* Dataset is collected manually based on trends.
+* Trends list are created dynamically, by querying the Twitter API
+* Fetch Data by using fetch_data packages in script folder 
 
+### II- Features selected for baseline
 
-#### I- How to start everything
-Fetch Data by using fetch_data packages in script folder 
+* __Features selected :__
+  * tweet_quarter
+  * tweet_day_of_the_week
+  * tweet_hour
+  * trend_volume
+  * __is_verified__
+  * __followers_count__
+  * fav
+  * retweet
 
-### II- NLP
+We try to keep things simple for this first version 
 
-* Can we predict if a tweet will become viral ?
-     * the tweets ?
-     * the person who like it ? 
-     * when they like it ?
-     * Is it an answer to a viral tweet ? 
-     * is a quoted tweet 
-          * if yes, what is the characteristic of this original tweets ? 
-  
-* Can we say why this tweet is viral ? 
-* Can we generate viral tweet ? 
+### III- Target : Predict viral tweet
+
+* Predict if a tweet will be viral 
+  * Model is NOT based on the tweet itself
+* We define 3 levels of virality : 
+  * number of fav < 50 => non viral tweets
+  * Number of fav in range(30, 500) => medium viral tweets
+  * Number of fav > 500 => high viral tweets
+
+### IV- __Baseline result__
+ ```
+                precision    recall  f1-score   support
+
+           0       1.00      0.99      1.00       541
+           1       0.38      0.30      0.33        10
+           2       0.69      0.78      0.73        23
+
+    accuracy                           0.97       574
+   macro avg       0.69      0.69      0.69       574
+weighted avg       0.97      0.97      0.97       574
+
+  ```

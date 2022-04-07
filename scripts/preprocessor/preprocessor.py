@@ -60,14 +60,12 @@ def get_num_cat_features(dataframe: pd.DataFrame) -> (List, List):
 
 
 def bucketize_target(fav_rt: int) -> int:
-    if fav_rt < 100:
+    if fav_rt < 30:
         return 0
-    elif 100 <= fav_rt < 200:
+    elif 30 <= fav_rt < 500:
         return 1
-    elif 200 <= fav_rt < 1000:
-        return 2
     else:
-        return 3
+        return 2
 
 
 if __name__ == "__main__":
