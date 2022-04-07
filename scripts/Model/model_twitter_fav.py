@@ -14,7 +14,7 @@ def setup_trainer(fav_or_rt_label: int):
     val = pd.read_csv(PATH_TO_VAL)
 
     app, features_names = select_features_and_target(dataframe=app)
-    va, features_names= select_features_and_target(dataframe=val)
+    val, features_names= select_features_and_target(dataframe=val)
 
     x_train, y_train = isolate_target(app)
     x_val, y_val = isolate_target(val)

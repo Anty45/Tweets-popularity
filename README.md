@@ -45,4 +45,11 @@ weighted avg       0.97      0.97      0.97       574
   ```
 ### V- Interpretability : SHAP Explainer
 
+
+* __Inference__
+![features impact for inference](./ressources/features_heatmap.png)
+  
+* __Features importances__
 ![model_interprtability](./ressources/features_imp_summary.png)
+
+
