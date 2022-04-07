@@ -1,69 +1,48 @@
-# Twitter - NLP - Data Mining
+# Predict viral tweets from scratch
 
-## Tableau visualization 
-![alt text](https://github.com/Anty45/FIL-ROUGE/blob/master/scripts/tableau_viz/Twitter%20%23tableau.png?raw=true)
+### I- Dataset
+* Dataset is collected manually based on trends.
+* Trends list are created dynamically, by querying the Twitter API
+* Fetch Data by using fetch_data packages in script folder 
 
-## __Pipeline :__ 
-* Get Twitter accreditations
-* Setup Zookeeper and Kafka
-* Fetch Data 
-* Store Data 
-* Clean Data 
-* Data analysis
-* Modeling 
-* Tests
+### II- Features selected for baseline
 
-### I- Containers
+* __Features selected :__
+  * tweet_quarter
+  * tweet_day_of_the_week
+  * tweet_hour
+  * trend_volume
+  * __is_verified__
+  * __followers_count__
 
-#### I-1- How to start everything
+We try to keep things simple for this first version 
 
-To make everything easier, i setup one zookeeper head and 2 brokers throught docker.
-Please note that you could add as much brokers as you want by simply modifying docker-compose and also add kafka properties files accordingly.
+### III- Target : Predict viral tweet
 
-As a requirement, you should have docker installed.
+* Predict if a tweet will be viral 
+  * Model is NOT based on the tweet itself
+  
+* We define 3 levels of virality : 
+  * number of fav < 50 => non viral tweets => mapped to 0
+  * Number of fav in range(30, 500) => medium viral tweets => mapped to 1
+  * Number of fav > 500 => high viral tweets => mapped to 2
 
-Command to build and run the containers : 
+### IV- __Baseline result__
 
-* __docker compose build__
-* __docker compose up__
+Yeah the data is unbalanced and that is quite logic :) 
 
-Explanation on communication of brokers IN container : [link](https://stackoverflow.com/questions/51630260/connect-to-kafka-running-in-docker)
+ ```
+                precision    recall  f1-score   support
 
-Kafka_cheat_sheet : https://ronnieroller.com/kafka/cheat-sheet#listing-messages-from-a-topic
+           0       1.00      0.99      1.00       541
+           1       0.38      0.30      0.33        10
+           2       0.69      0.78      0.73        23
 
-#### I-2- Troubleshooting and solutions 
+    accuracy                           0.97       574
+   macro avg       0.69      0.69      0.69       574
+weighted avg       0.97      0.97      0.97       574
 
-Please note that you could have these following Troubleshooting : 
+  ```
+### V- Interpretability : SHAP Explainer
 
-   * On start, if you modify the logs file, Kafka could be not able to read the new log directory. 
-     Just delete everything who refer to log before create a clean base of log files. 
-     Add the new log path to server.properties.
-     
-   * It could have some ephemeral connection to znode. In other words, the node already exist so it's engender a fatal error and the broker die. To clean everything and run on clean base you could use the following commands:
-     __"docker compose rm -svf"__.
-   * If the previous command does'nt work, try to add more time sleep on the kafka's containers creation. You could find it in ./Kafka/kafka_entr_point/start-kafka.sh
-
-Well that's all you need.
-
-### II- Data acquisition
-
-The Kafka producer write in the broker container all the tweets AND trends fetched. These data are stored in csv and excel file in scripts/ressources.
-
-
-Limitations :
-
-   * The limits are on number of keywords / user ids etc you can track - these are in the docs.
-     
-     The limit on tweets received, is 1% of the firehose, which is variable. If the volume of tweets is less than 1% of all tweets posted, you will get all tweets matching. Once you start missing tweets you will start receiving limit notices in the stream.
-     
-     Depending on what you’re tracking, you may not get any tweets for a while, instead, blank lines are sent to keep the connection alive. You should aim to keep a stable, open connection and not reconnect frequently - however, if no activity or an error occurs you should reconnect, but with exponential backoff (exponentially increasing the delay between reconnect attempts)
-
-### III- Real-time prediction
-
-Navigate to spark bin directory and run :
-
-* spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.3.2 Streaming.py localhost:2181 Twitter
-
-### IV- Tableau visualization 
-
-Well you just have to connect tableau to messages.xlsx. These files will be present in scripts/ressources/ directory
+![model_interprtability](./ressources/features_imp_summary.png)
