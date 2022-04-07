@@ -10,6 +10,8 @@ PATH_TO_TEST = Path(__file__) / "../../../ressources/test.csv"
 PATH_TO_PREPROCESSOR = Path(__file__) / "../../../ressources/preprocessor.joblib"
 PATH_TO_FAV_MODEL = Path(__file__) / "../../../ressources/model_fav.joblib"
 PATH_TO_RT_MODEL = Path(__file__) / "../../../ressources/model_fav.joblib"
+PATH_TO_FEATURES_IMP = Path(__file__) / "../../../ressources/features_imp_summary.png"
+
 _LABELS_ = {"_FAV_LABEL_": 0,
             "_RT_LABEL_": 1}
 

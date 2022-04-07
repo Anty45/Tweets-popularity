@@ -43,3 +43,6 @@ Yeah the data is unbalanced and that is quite logic :)
 weighted avg       0.97      0.97      0.97       574
 
   ```
+### V- Interpretability : SHAP Explainer
+
+![model_interprtability](./ressources/features_imp_summary.png)
