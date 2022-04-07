@@ -14,8 +14,6 @@
   * trend_volume
   * __is_verified__
   * __followers_count__
-  * fav
-  * retweet
 
 We try to keep things simple for this first version 
 
@@ -23,10 +21,11 @@ We try to keep things simple for this first version
 
 * Predict if a tweet will be viral 
   * Model is NOT based on the tweet itself
+  
 * We define 3 levels of virality : 
-  * number of fav < 50 => non viral tweets
-  * Number of fav in range(30, 500) => medium viral tweets
-  * Number of fav > 500 => high viral tweets
+  * number of fav < 50 => non viral tweets => mapped to 0
+  * Number of fav in range(30, 500) => medium viral tweets => mapped to 1
+  * Number of fav > 500 => high viral tweets => mapped to 2
 
 ### IV- __Baseline result__
  ```
