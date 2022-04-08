@@ -35,11 +35,12 @@ def select_features_and_target(dataframe: pd.DataFrame) -> (pd.DataFrame, List):
                          "trend_volume",
                          # "trend",
                          "is_verified",
-                         "followers_count",
-                         # "location",
-                         "fav",
-                         "retweet"]
-    return dataframe[features_selected], features_selected
+                         "followers_count"
+                         # "location"
+                         ]
+    targets = ["fav", "retweet"]
+    features_and_targets = features_selected + targets
+    return dataframe[features_and_targets], features_selected
 
 
 def map_cat_to_int(dataframe: pd.DataFrame) -> pd.DataFrame:

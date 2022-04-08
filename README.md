@@ -1,7 +1,7 @@
-# Predict viral tweets from scratch
+# Tweets popularity prediction
 
-### I- Dataset
-* Dataset is collected manually based on trends.
+### I- Dataset Collection
+* Dataset is collected __manually__ based on trends in day-to-day.
 * Trends list are created dynamically, by querying the Twitter API
 * Fetch Data by using fetch_data packages in script folder 
 
@@ -45,4 +45,11 @@ weighted avg       0.97      0.97      0.97       574
   ```
 ### V- Interpretability : SHAP Explainer
 
+
+* __Inference__
+![features impact for inference](./ressources/features_heatmap.png)
+  
+* __Features importances__
 ![model_interprtability](./ressources/features_imp_summary.png)
+
+
