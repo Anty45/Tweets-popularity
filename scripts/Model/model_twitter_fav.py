@@ -51,6 +51,7 @@ def objective_fav(trial) -> float:
 def objective_rt(trial) -> float:
     params_ = {
         "boosting_type": trial.suggest_categorical("boosting_type", ["rf", "gbdt", "dart"]),
+        "num_leaves":trial.suggest_int("num_leaves", 8,200),
         "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
         "lambda_l2": trial.suggest_float("lambda_l2", 1e-8, 10.0, log=True),
         "feature_fraction": trial.suggest_float("feature_fraction", 0.4, 1.0),
