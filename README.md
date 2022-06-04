@@ -52,4 +52,8 @@ weighted avg       0.97      0.97      0.97       574
 * __Features importances__
 ![model_interprtability](./ressources/features_imp_summary.png)
 
-
+* Class 0 : The number of followers and the verified tag are the most important features to 
+classify this class
+* Class 1 : The trend volume is the most relevant features to identify this class
+* Class 2 : Trend volume and followers_count are the most important features to explain this class
+* tweet_quarter is not a relevant feature for the prediction and should be remove from features list for future model
