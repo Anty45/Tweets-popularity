@@ -1,18 +1,10 @@
-FROM openjdk:11.0.10-jre-buster
+FROM python:3.8
 
-RUN apt-get update && \
-    apt-get install -y curl
+WORKDIR /app
 
-ENV KAFKA_VERSION 2.8.0
-ENV SCALA_VERSION 2.12
+COPY scripts/api/ ./
+COPY scripts/api/ressources_api/model_fav.joblib ./model_fav.joblib
+COPY scripts/api/requirements_api.txt ./requirements.txt
 
-RUN  mkdir /tmp/kafka
-RUN  curl "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz" \
-    -o /tmp/kafka/kafka.tgz
-RUN mkdir /kafka && cd /kafka && \
-    tar -xvzf /tmp/kafka/kafka.tgz --strip 1
-
-COPY /Kafka/kafka_entry_point/start-kafka.sh  /usr/bin
-RUN chmod +x  /usr/bin/start-kafka.sh
-
-CMD ["start-kafka.sh" ]
+RUN pip install --no-cache-dir --upgrade -r ./requirements.txt
+ENTRYPOINT python -m uvicorn twitter_model_api:app --host 0.0.0.0 --port 80

@@ -4,8 +4,8 @@ from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel
 
-PATH_TO_FAV_MODEL = Path(__file__) / "../../../ressources/model_fav.joblib"
-
+PATH_TO_FAV_MODEL = (Path(__file__) / "../model_fav.joblib").resolve()
+print(PATH_TO_FAV_MODEL)
 
 class Features_twitter_fav(BaseModel):
     tweet_quarter: int
@@ -18,7 +18,6 @@ class Features_twitter_fav(BaseModel):
 
 app = FastAPI()
 model = joblib.load(filename=PATH_TO_FAV_MODEL)
-
 
 
 @app.post("/predict/")
