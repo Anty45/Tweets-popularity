@@ -30,7 +30,7 @@ def visualize_decision_plot(explainer: shap.TreeExplainer, features, features_na
 def visualize_heatmap_features_imp(model, features, feature_name: list):
     explainer = shap.Explainer(model, features, feature_names=feature_name)
     shap_values = explainer(features[:1000])
-    sample_shap_values = shap_values[:, :, 2]
+    sample_shap_values = shap_values[:]
     plt.figure(figsize=(20, 15))
     shap.plots.heatmap(sample_shap_values, show=False, max_display=12)
     plt.savefig(PATH_TO_HEATMAP, bbox_inches='tight')
