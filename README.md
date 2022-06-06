@@ -8,10 +8,8 @@
 ### II- Features selected for baseline
 
 * __Features selected :__
-  * tweet_quarter
   * tweet_day_of_the_week
   * tweet_hour
-  * trend_volume
   * __is_verified__
   * __followers_count__
 
@@ -20,27 +18,27 @@ We try to keep things simple for this first version
 ### III- Target : Predict viral tweet
 
 * Predict if a tweet will be viral 
-  * Model is NOT based on the tweet itself
+
+__Note__ : Model is NOT based on the tweet itself
   
-* We define 3 levels of virality : 
-  * number of fav < 50 => non viral tweets => mapped to 0
-  * Number of fav in range(30, 500) => medium viral tweets => mapped to 1
-  * Number of fav > 500 => high viral tweets => mapped to 2
+* We define 2 levels of virality : 
+  * number of fav < 100 => non viral tweets => mapped to 0
+  * Number of fav > 100 =>  viral tweets => mapped to 1
 
 ### IV- __Baseline result__
 
-Yeah the data is unbalanced and that is quite logic :) 
+* Yeah the data is unbalanced and that is quite logic :)
+* We oversample the __training set_ resulting to an improvement of f1_score on class 1
 
  ```
-                precision    recall  f1-score   support
+              precision    recall  f1-score   support
 
-           0       1.00      0.99      1.00       541
-           1       0.38      0.30      0.33        10
-           2       0.69      0.78      0.73        23
+           0       1.00      0.99      0.99      1704
+           1       0.79      0.98      0.87        83
 
-    accuracy                           0.97       574
-   macro avg       0.69      0.69      0.69       574
-weighted avg       0.97      0.97      0.97       574
+    accuracy                           0.99      1787
+   macro avg       0.89      0.98      0.93      1787
+weighted avg      0.99      0.99      0.99      1787
 
   ```
 ### V- Interpretability : SHAP Explainer
@@ -52,8 +50,4 @@ weighted avg       0.97      0.97      0.97       574
 * __Features importances__
 ![model_interprtability](./ressources/features_imp_summary.png)
 
-* Class 0 : The number of followers and the verified tag are the most important features to 
-classify this class
-* Class 1 : The trend volume is the most relevant features to identify this class
-* Class 2 : Trend volume and followers_count are the most important features to explain this class
-* tweet_quarter is not a relevant feature for the prediction and should be remove from features list for future model
+The number of followers and the verified tag are the most important features to solve this classification problem (quite logic again)
