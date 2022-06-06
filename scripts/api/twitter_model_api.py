@@ -4,14 +4,12 @@ from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel
 
-PATH_TO_FAV_MODEL = (Path(__file__) / "../model_fav.joblib").resolve()
+PATH_TO_FAV_MODEL = (Path(__file__) / "../ressources_api/model_fav.joblib").resolve()
 print(PATH_TO_FAV_MODEL)
 
 class Features_twitter_fav(BaseModel):
-    tweet_quarter: int
     tweet_day_of_the_week: int
     tweet_hour: int
-    trend_volume: int
     is_verified: int
     followers_count: int
 
