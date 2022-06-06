@@ -1,6 +1,6 @@
 import lightgbm
 import pandas as pd
-from sklearn.metrics import f1_score, classification_report
+from sklearn.metrics import f1_score, classification_report, confusion_matrix
 from scripts.fetch_data.save_data import PATH_TO_TEST, PATH_TO_FAV_MODEL, _LABELS_
 import joblib
 
@@ -16,7 +16,7 @@ def validate_model(model: lightgbm.LGBMClassifier, features, labels):
 
 def model_test(model: lightgbm.LGBMClassifier, test_features, test_labels):
     predictions_test = model.predict(X=test_features)
-
+    print(confusion_matrix(y_true=test_labels, y_pred=predictions_test))
     return classification_report(y_true=test_labels, y_pred=predictions_test)
 
 

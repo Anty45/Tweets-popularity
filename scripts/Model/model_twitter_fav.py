@@ -5,12 +5,12 @@ import joblib
 
 from scripts.preprocessor.preprocessor import isolate_target, select_features_and_target
 from scripts.fetch_data.save_data import PATH_TO_TRAIN, PATH_TO_VAL, PATH_TO_RT_MODEL, PATH_TO_FAV_MODEL,\
-    _LABELS_, TARGETS
+    _LABELS_, TARGETS, PATH_TO_OVERSAMPLED_DATA
 from scripts.Model.evaluate import validate_model
 
 
 def setup_trainer(fav_or_rt_label: int):
-    app = pd.read_csv(PATH_TO_TRAIN)
+    app = pd.read_csv(PATH_TO_OVERSAMPLED_DATA)
     val = pd.read_csv(PATH_TO_VAL)
 
     app, features_names = select_features_and_target(dataframe=app)
@@ -33,6 +33,7 @@ def setup_trainer(fav_or_rt_label: int):
 def objective_fav(trial) -> float:
     params_ = {
         "boosting_type": trial.suggest_categorical("boosting_type", ["rf", "gbdt", "dart"]),
+        "num_iterations ": trial.suggest_int("num_iterations ",50, 300),
         "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0, log=True),
         "lambda_l2": trial.suggest_float("lambda_l2", 1e-8, 10.0, log=True),
         "feature_fraction": trial.suggest_float("feature_fraction", 0.4, 1.0),
