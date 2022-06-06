@@ -29,15 +29,15 @@ def isolate_target(data: pd.DataFrame) -> (np.ndarray, np.ndarray):
 
 
 def select_features_and_target(dataframe: pd.DataFrame) -> (pd.DataFrame, List):
-    features_selected = ["tweet_quarter",
-                         "tweet_day_of_the_week",
-                         "tweet_hour",
-                         "trend_volume",
-                         # "trend",
-                         "is_verified",
-                         "followers_count"
-                         # "location"
-                         ]
+    features_selected = [  # "tweet_quarter",
+        "tweet_day_of_the_week",
+        "tweet_hour",
+        # "trend_volume",
+        # "trend",
+        "is_verified",
+        "followers_count"
+        # "location"
+    ]
     targets = ["fav", "retweet"]
     features_and_targets = features_selected + targets
     return dataframe[features_and_targets], features_selected
@@ -61,12 +61,10 @@ def get_num_cat_features(dataframe: pd.DataFrame) -> (List, List):
 
 
 def bucketize_target(fav_rt: int) -> int:
-    if fav_rt < 30:
+    if fav_rt < 100:
         return 0
-    elif 30 <= fav_rt < 500:
-        return 1
     else:
-        return 2
+        return 1
 
 
 if __name__ == "__main__":
