@@ -1,4 +1,13 @@
 # Tweets popularity prediction
+## Run the project through docker 
+
+* Build docker image
+  * ````docker build -t YOUR_IMAGE_NAME .````
+* Run container :
+  *  ````docker run -d YOUR_IMAGE_NAME -p HOST_POST:80````
+  * Run http://127.0.0.1:HOST_POST/docs to see swagger UI and diferents routes
+
+## Data Science method 
 
 ### I- Dataset Collection
 * Dataset is collected __manually__ based on trends in day-to-day.
