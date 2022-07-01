@@ -6,6 +6,15 @@
 * Run container :
   *  ````docker run -d YOUR_IMAGE_NAME -p HOST_POST:80````
   * Run http://127.0.0.1:HOST_POST/docs to see swagger UI and diferents routes
+## Deploy App on EC2 
+
+* Setup an EC2 spot 
+* Install docker 
+* Run the commands ahead in "run docker section"
+* Install nginx 
+* Voila, you deploy a model on EC2 and you should see something like that on EC2 : 
+
+![deployment](./ressources/model_deployment_ec2.PNG)
 
 ## Data Science method 
 
@@ -60,3 +69,11 @@ weighted avg      0.99      0.99      0.99      1787
 ![model_interprtability](./ressources/features_imp_summary.png)
 
 The number of followers and the verified tag are the most important features to solve this classification problem (quite logic again)
+
+### VI- Deploy on Ec2
+
+* create an ec2 instance 
+* Connect to ec2 remote machine : 
+```
+ssh -i ~/.ssh/twitter_popularity_poc.pem ubuntu@13.38.229.112
+```
